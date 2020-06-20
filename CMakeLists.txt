@@ -1,0 +1,3 @@
+PROJECT (Jana)
+set(CMAKE_CXX_STANDARD 11)
+ADD_EXECUTABLE(Jana src/jana.cpp)

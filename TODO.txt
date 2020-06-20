@@ -1,0 +1,50 @@
+Jana compiler.
+
+(Need to fix segment fault error when `return` under ubuntu 16.04)
+
+
+** 如何加入函数指针特征 **
+
+
+先便遍历一遍除标准库之外的.jana文件, 把其中的 function name 全部记录下来
+
+然后统一到一个表格里去
+
+=================
+1: add_digit:
+2: sub_digit:
+3: divide_digit:
+....
+=================
+
+
+新创立一个built-in的类Func, 类似 Array,String.
+只是名字上那样叫, 实际都是和int一样都是32bit存储.
+
+然后第二遍编译的时候
+
+
+var Func a;
+let a = add_digit
+do a(1, 2);
+
+
+直接把所有的函数名字, 全换成(function_x):
+
+这样的话, 前端的翻译需要做一些相应的调整.
+
+得到的虚拟机代码为:
+
+
+1.赋值:
+
+...
+
+2.调用:
+
+push 1
+push 2
+push function_x
+call System.CallAdaptor => 这个部分的代码根据第一遍编译得到的函数表生成, 主要是if else 的判断
+
+然后翻译成asm的时候, 将 function_x 转化成 1/2/3...
